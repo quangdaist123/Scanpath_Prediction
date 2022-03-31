@@ -23,6 +23,7 @@ np.random.seed(42619)
 if __name__ == '__main__':
     args = docopt(__doc__)
     device = torch.device('cuda:{}'.format(args['--cuda']))
+    device = torch.device("cpu")
     hparams = args["<hparams>"]
     dataset_root = args["<dataset_root>"]
     hparams = JsonConfig(hparams)

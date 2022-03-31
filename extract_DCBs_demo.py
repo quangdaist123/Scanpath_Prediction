@@ -9,6 +9,7 @@ from detectron2.modeling import build_backbone
 from detectron2.engine import DefaultPredictor
 
 device = torch.device("cuda")
+device = torch.device("cpu")
 
 
 def pred2feat(seg, info):
