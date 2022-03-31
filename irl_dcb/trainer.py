@@ -40,20 +40,21 @@ class Trainer(object):
 
         # image dataloader
         self.batch_size = hparams.Train.batch_size
+        self.batch_size = 2
         self.train_img_loader = DataLoader(dataset['img_train'],
                                            batch_size=self.batch_size,
                                            shuffle=True,
-                                           num_workers=16)
+                                           num_workers=0)
         self.valid_img_loader = DataLoader(dataset['img_valid'],
                                            batch_size=self.batch_size,
                                            shuffle=False,
-                                           num_workers=16)
+                                           num_workers=0)
 
         # human gaze dataloader
         self.train_HG_loader = DataLoader(dataset['gaze_train'],
                                           batch_size=self.batch_size,
                                           shuffle=True,
-                                          num_workers=16)
+                                          num_workers=0)
 
         # training parameters
         self.gamma = hparams.Train.gamma
@@ -84,6 +85,7 @@ class Trainer(object):
         self.discriminator.train()
         self.global_step = self.loaded_step
         for i_epoch in range(self.n_epoches):
+            # print(self.train_img_loader)
             for i_batch, batch in enumerate(self.train_img_loader):
                 # run policy to collect trajactories
                 print(
