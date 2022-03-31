@@ -7,8 +7,8 @@
             20
         ],
         "patch_size": [
-            16,
-            16
+            2,
+            2
         ],
         "patch_count": 640,
         "fovea_radius": 2,
