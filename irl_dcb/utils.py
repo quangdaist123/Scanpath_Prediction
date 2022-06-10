@@ -288,13 +288,19 @@ def calc_overlap_ratio(bbox, patch_size, patch_num):
     patch_area = float(patch_size[0] * patch_size[1])
     aoi_ratio = np.zeros((1, patch_num[1], patch_num[0]), dtype=np.float32)
 
-    tl_x, tl_y = bbox[0], bbox[1]
-    br_x, br_y = bbox[0] + bbox[2], bbox[1] + bbox[3]
+    tl_x, tl_y = bbox[0]/16, bbox[1]/16
+    br_x, br_y = bbox[0]/16 + bbox[2]/16, bbox[1]/16 + bbox[3]/16
+    # tl_x, tl_y = bbox[0], bbox[1]
+    # br_x, br_y = bbox[0] + bbox[2], bbox[1] + bbox[3]
     lx, ux = tl_x // patch_size[0], br_x // patch_size[0]
     ly, uy = tl_y // patch_size[1], br_y // patch_size[1]
+    lx = int(lx)
+    ux = int(ux)
+    ly = int(ly)
+    uy = int(uy)
 
-    for x in range(lx, ux + 1):
-        for y in range(ly, uy + 1):
+    for x in range(lx, ux):
+        for y in range(ly, uy):
             patch_tlx, patch_tly = x * patch_size[0], y * patch_size[1]
             patch_brx, patch_bry = patch_tlx + patch_size[
                 0], patch_tly + patch_size[1]
@@ -304,8 +310,7 @@ def calc_overlap_ratio(bbox, patch_size, patch_num):
             aoi_brx = br_x if patch_brx > br_x else patch_brx
             aoi_bry = br_y if patch_bry > br_y else patch_bry
 
-            aoi_ratio[0, y, x] = max((aoi_brx - aoi_tlx), 0) * max(
-                (aoi_bry - aoi_tly), 0) / float(patch_area)
+            aoi_ratio[0, y, x] = max((aoi_brx - aoi_tlx), 0) * max((aoi_bry - aoi_tly), 0) / float(patch_area)
 
     return aoi_ratio
 
@@ -367,8 +372,9 @@ def preprocess_fixations(trajs,
     for traj in trajs:
         # first fixations are fixed at the screen center
         traj['X'][0], traj['Y'][0] = im_w / 2, im_h / 2
-        label = pos_to_action(traj['X'][0], traj['Y'][0], patch_size,
-                              patch_num)
+        label = pos_to_action(traj['X'][0]*(512/1680), traj['Y'][0]*(320/1050), patch_size, patch_num)
+        # label = pos_to_action(traj['X'][0]/(32), traj['Y'][0]/(20), patch_size, patch_num)
+        # label = pos_to_action(traj['X'][0], traj['Y'][0], patch_size, patch_num)
         tar_x, tar_y = action_to_pos(label, patch_size, patch_num)
         fixs = [(tar_x, tar_y)]
         label_his = [label]
@@ -377,9 +383,11 @@ def preprocess_fixations(trajs,
         else:
             traj_len = min(truncate_num, len(traj['X']))
 
+
         for i in range(1, traj_len):
-            label = pos_to_action(traj['X'][i], traj['Y'][i], patch_size,
-                                  patch_num)
+            label = pos_to_action(traj['X'][i]*(512/1680), traj['Y'][i]*(320/1050), patch_size, patch_num)
+            # label = pos_to_action(traj['X'][i], traj['Y'][i], patch_size, patch_num)
+            # label = pos_to_action(traj['X'][i] / (32), traj['Y'][i] / (20), patch_size, patch_num)
 
             # remove returning fixations (enforce inhibition of return)
             if label in label_his:
