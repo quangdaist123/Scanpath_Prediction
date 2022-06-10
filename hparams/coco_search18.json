@@ -7,8 +7,8 @@
             20
         ],
         "patch_size": [
-            2,
-            2
+            16,
+            16
         ],
         "patch_count": 640,
         "fovea_radius": 2,
@@ -42,7 +42,7 @@
         "lr": 1e-05,
         "clip_param": 0.2,
         "num_epoch": 1,
-        "batch_size": 64,
+        "batch_size": 2,
         "value_coef": 1.0,
         "entropy_coef": 0.01
     }
