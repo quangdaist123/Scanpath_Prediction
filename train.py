@@ -38,10 +38,10 @@ if __name__ == '__main__':
 
     # load ground-truth human scanpaths
     with open(join(dataset_root,
-                   'coco_search18_fixations_TP_train.json')) as json_file:
+                   'human_scanpaths_TP_trainval_train.json')) as json_file:
         human_scanpaths_train = json.load(json_file)
     with open(join(dataset_root,
-                   'coco_search18_fixations_TP_validation.json')) as json_file:
+                   'human_scanpaths_TP_trainval_valid.json')) as json_file:
         human_scanpaths_valid = json.load(json_file)
 
     # exclude incorrect scanpaths
