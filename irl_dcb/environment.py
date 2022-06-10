@@ -147,7 +147,7 @@ class IRL_Env4LHF:
         # center initialization
         elif self.init == 'center':
             self.fixations[:, 0] = torch.tensor(
-                [[self.pa.patch_num[0] / 2, self.pa.patch_num[1] / 2]],
+                [[self.pa.patch_num[0] // 2, self.pa.patch_num[1] // 2]],
                 dtype=torch.long,
                 device=self.device)
             bs = self.action_mask.size(0)
