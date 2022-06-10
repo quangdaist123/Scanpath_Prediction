@@ -288,16 +288,16 @@ def calc_overlap_ratio(bbox, patch_size, patch_num):
     patch_area = float(patch_size[0] * patch_size[1])
     aoi_ratio = np.zeros((1, patch_num[1], patch_num[0]), dtype=np.float32)
 
-    tl_x, tl_y = bbox[0]/16, bbox[1]/16
-    br_x, br_y = bbox[0]/16 + bbox[2]/16, bbox[1]/16 + bbox[3]/16
-    # tl_x, tl_y = bbox[0], bbox[1]
-    # br_x, br_y = bbox[0] + bbox[2], bbox[1] + bbox[3]
+    # tl_x, tl_y = bbox[0]/16, bbox[1]/16
+    # br_x, br_y = bbox[0]/16 + bbox[2]/16, bbox[1]/16 + bbox[3]/16
+    tl_x, tl_y = bbox[0], bbox[1]
+    br_x, br_y = bbox[0] + bbox[2], bbox[1] + bbox[3]
     lx, ux = tl_x // patch_size[0], br_x // patch_size[0]
     ly, uy = tl_y // patch_size[1], br_y // patch_size[1]
-    lx = int(lx)
-    ux = int(ux)
-    ly = int(ly)
-    uy = int(uy)
+    # lx = int(lx)
+    # ux = int(ux)
+    # ly = int(ly)
+    # uy = int(uy)
 
     for x in range(lx, ux):
         for y in range(ly, uy):
